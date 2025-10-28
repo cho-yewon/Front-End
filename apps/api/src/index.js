@@ -7,7 +7,7 @@ const app = express();
 
 // 화이트리스트 (ENV로도 추가 가능: CORS_ORIGINS="https://a.com,https://b.com")
 const defaultWhitelist = [
-  "https://front-38uj9cvty_yewons-projects-1f4859f3.vercel.app",
+  "https://front-end-two-olive.vercel.app",
   "http://localhost:5173",
 ];
 const envOrigins = (process.env.CORS_ORIGINS || "")
