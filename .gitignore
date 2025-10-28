@@ -1,0 +1,15 @@
+# 공통
+node_modules/
+.env
+.DS_Store
+
+# Vite
+apps/web/dist/
+
+# logs
+*.log
+npm-debug.log*
+
+# OS/IDE
+.vscode/
+.idea/

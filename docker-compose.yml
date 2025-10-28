@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: portfolio_pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: portuser
+      POSTGRES_PASSWORD: portpass
+      POSTGRES_DB: portfolio
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+
+volumes:
+  pgdata:
