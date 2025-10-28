@@ -5,11 +5,13 @@ import projectsRouter from "./routes/projects.js";
 
 const app = express();
 
-// 화이트리스트 (ENV로도 추가 가능: CORS_ORIGINS="https://a.com,https://b.com")
+// ...
 const defaultWhitelist = [
-  "https://front-end-two-olive.vercel.app",
+  "https://front-38uj9cvty_yewons-projects-1f4859f3.vercel.app",
+  "https://front-end-two-olive.vercel.app",   // ✅ 새 프론트 도메인 추가
   "http://localhost:5173",
 ];
+
 const envOrigins = (process.env.CORS_ORIGINS || "")
   .split(",")
   .map(s => s.trim())
