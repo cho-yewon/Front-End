@@ -1,60 +1,39 @@
-// apps/api/src/index.js
 import express from "express";
 import cors from "cors";
 import projectsRouter from "./routes/projects.js";
 
 const app = express();
 
-// ...
-const defaultWhitelist = [
+// 화이트리스트
+const whitelist = [
+  "https://front-end-two-olive.vercel.app",
   "https://front-38uj9cvty_yewons-projects-1f4859f3.vercel.app",
-  "https://front-end-two-olive.vercel.app",   // ✅ 새 프론트 도메인 추가
   "http://localhost:5173",
 ];
 
-const envOrigins = (process.env.CORS_ORIGINS || "")
-  .split(",")
-  .map(s => s.trim())
-  .filter(Boolean);
+app.use(cors({
+  origin(origin, cb) {
+    if (!origin) return cb(null, true);
+    if (whitelist.includes(origin)) return cb(null, true);
+    return cb(new Error(`CORS blocked: ${origin}`));
+  },
+  credentials: true,
+}));
 
-const whitelist = [...new Set([...defaultWhitelist, ...envOrigins])];
-
-// ✅ CORS: 단일 미들웨어만 사용
-app.use(
-  cors({
-    origin(origin, cb) {
-      // 서버-서버/헬스체크 등 Origin 없음은 허용
-      if (!origin) return cb(null, true);
-      if (whitelist.includes(origin)) return cb(null, true);
-      return cb(new Error(`CORS blocked: ${origin}`));
-    },
-    credentials: true,
-    methods: ["GET","HEAD","POST","PUT","PATCH","DELETE","OPTIONS"],
-    allowedHeaders: ["Content-Type","Authorization"],
-  })
-);
-
-// 프리플라이트 허용
 app.options("*", cors());
-
-// 바디 파서
 app.use(express.json());
 
-// 헬스/루트
-app.get("/", (_req, res) => res.status(200).send("OK"));
+app.get("/", (_req, res) => res.send("OK"));
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
-// 라우트
+// ✅ 라우터 마운트
 app.use("/api/projects", projectsRouter);
 
-// 에러 핸들러 (CORS 메시지 가시화)
+// 에러 핸들러
 app.use((err, _req, res, _next) => {
-  if (err?.message?.startsWith("CORS blocked")) {
-    return res.status(403).json({ error: "CORS", detail: err.message });
-  }
-  console.error(err);
+  console.error("UNCAUGHT:", err);
   res.status(500).json({ error: "Internal Server Error" });
 });
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`API listening on :${port}`));
+app.listen(port, "0.0.0.0", () => console.log(`API listening on :${port}`));
