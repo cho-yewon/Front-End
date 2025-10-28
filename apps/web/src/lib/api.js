@@ -1,9 +1,7 @@
-export async function getJSON(url) {
-const r = await fetch(url)
-if (!r.ok) throw new Error('Network')
-return r.json()
-}
-export async function postJSON(url, body) {
-const r = await fetch(url, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) })
-return r.ok
+// apps/web/src/lib/api.js
+export const API_BASE = import.meta.env.VITE_API_BASE;
+export async function getJSON(path) {
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) throw new Error("API error");
+  return res.json();
 }
