@@ -1,22 +1,16 @@
+// apps/api/src/routes/projects.js
 import { Router } from "express";
+import { query } from "../db.js";  // DB 연결 모듈 가져오기
+
 const router = Router();
 
-// 임시: DB 없이도 200 보장 (배포 확인용)
+// 실제 DB에서 프로젝트 목록 불러오기
 router.get("/", async (_req, res, next) => {
   try {
-    // TODO: DB 쿼리 넣을 때는 try/catch 유지
-    // const rows = await db.query("SELECT ...");
-    const demo = [
-      {
-        id: 1,
-        title: "Demo Project",
-        slug: "demo-project",
-        tags: ["react", "node"],
-        links: { demo: "#", repo: "#" }
-      }
-    ];
-    res.json(demo);
+    const { rows } = await query("SELECT * FROM projects ORDER BY created_at DESC;");
+    res.json(rows);
   } catch (err) {
+    console.error("❌ DB error:", err);
     next(err);
   }
 });
