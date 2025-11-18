@@ -12,7 +12,7 @@ export default function Projects() {
         <div className="portfolio-grid" style={{marginTop:'2em'}}>
           {items.map(p => (
             <a key={p.id} href={`/projects/${p.slug}`} className="card">
-              <img src={p.cover_url || 'https://via.placeholder.com/400x250/34A853/FFFFFF?text=Project'} alt={p.title} />
+              <img src={p.cover_url || 'https://via.placeholder.com/400x300/34A853/FFFFFF?text=Project'} alt={p.title} />
               <div className="card-content">
                 <h3>{p.title}</h3>
                 <p>{(p.tags || []).map(t => t.name).join(' · ') || 'Project'}</p>

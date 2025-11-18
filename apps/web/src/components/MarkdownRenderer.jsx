@@ -1,18 +1,20 @@
-// apps/web/src/components/MarkdownRenderer.jsx
-import { useMemo } from "react";
-import { marked } from "marked";          // v5+ ESM: 중괄호 import
-import DOMPurify from "dompurify";
+import React from "react";
+import { marked } from "marked";
 
 marked.setOptions({
-  breaks: true,        // 줄바꿈 처리 (옵션)
-  gfm: true,           // GitHub Flavored Markdown
+  breaks: true,
+  gfm: true,
 });
 
-export default function MarkdownRenderer({ markdown = "" }) {
-  const html = useMemo(() => {
-    const raw = marked.parse(markdown ?? "");
-    return DOMPurify.sanitize(raw);
-  }, [markdown]);
+export default function MarkdownRenderer({ md }) {
+  if (!md) return null;
 
-  return <div className="prose" dangerouslySetInnerHTML={{ __html: html }} />;
+  const html = marked.parse(md);
+
+  return (
+    <div
+      className="markdown-body"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
+  );
 }
