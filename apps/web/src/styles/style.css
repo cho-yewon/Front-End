@@ -204,8 +204,8 @@ a {
 }
 
 .about-layout img {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -254,3 +254,263 @@ a {
     background-color: var(--background-light);
     margin-top: 4rem;
 }
+
+/* --- Responsive Styles --- */
+@media (max-width: 768px) {
+  /* 전체 여백 조정 */
+  .container {
+    padding: 0 15px;
+  }
+
+  /* 네비게이션: 수직 정렬로 전환 */
+  .main-nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .main-nav .logo {
+    margin-bottom: 10px;
+  }
+
+  /* 메뉴 숨기기 및 토글 대비 */
+  .main-nav ul {
+    flex-direction: column;
+    width: 100%;
+    background: var(--white);
+    border-top: 1px solid var(--border-color);
+    display: none;
+  }
+
+  .main-nav.active ul {
+    display: flex; /* JS에서 .active 클래스 추가 시 표시 */
+  }
+
+  .main-nav ul li {
+    margin: 10px 0;
+  }
+
+  .main-nav ul a {
+    display: block;
+    width: 100%;
+    padding: 10px;
+  }
+
+  /* 햄버거 메뉴 버튼 */
+  .menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-dark);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  /* 기본적으로 버튼은 숨겨짐 (데스크탑에서는 안 보이게) */
+}
+
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none;
+  }
+}
+
+/* --- Home Page: Horizontal Card Grid --- */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 반응형 가로 배치 */
+  gap: 2rem;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.home-grid .card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.home-grid .card:hover {
+  transform: translateY(-5px);
+}
+
+.home-grid .card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.home-grid .card-content {
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .home-grid {
+    grid-template-columns: 1fr; /* 모바일에서는 한 줄 */
+  }
+}
+
+/* --- Contact Page: 3-column Fixed Card Grid --- */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* ✅ 항상 한 줄에 3개 고정 */
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: stretch;
+  max-width: 900px; /* 그리드 전체 폭 살짝 늘림 */
+  margin: 0 auto;
+}
+
+.card--contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease;
+  padding: 1.5rem 1rem;
+}
+
+.card--contact:hover {
+  transform: translateY(-5px);
+}
+
+.card--contact .card-content h3 {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.card--contact .card-content p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* ✅ 반응형 - 모바일에서는 1~2열로 자동 전환 */
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Cover Letter Layout --- */
+.cover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cover-wrap {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 2rem;
+}
+
+/* 사이드 TOC */
+.cover-toc {
+  position: sticky;
+  top: 80px; /* 헤더 높이에 맞춰 조절 */
+  height: fit-content;
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+}
+
+.cover-toc-title {
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: .6rem;
+}
+
+.cover-toc ul {
+  list-style: none;
+}
+
+.cover-toc li + li {
+  margin-top: .4rem;
+}
+
+.cover-toc a {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.cover-toc a:hover {
+  color: var(--primary-color);
+}
+
+/* 본문 카드 */
+.cover-article {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+
+.cover-section + .cover-section {
+  border-top: 1px dashed var(--border-color);
+  margin-top: 24px;
+  padding-top: 24px;
+}
+
+.cover-h3 {
+  font-size: 1.25rem;
+  margin-bottom: .8rem;
+  color: var(--text-dark);
+}
+
+/* 원문 그대로 표시 (줄바꿈/공백 유지) */
+.cover-text {
+  white-space: pre-wrap;      /* 줄바꿈/공백 보존 */
+  word-break: break-word;     /* 한글도 적절히 줄바꿈 */
+  overflow-wrap: anywhere;    /* 아주 긴 단어/URL도 강제 줄바꿈 */
+  line-height: 1.8;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+/* 프린트 최적화 */
+@media print {
+  .main-header, .main-nav, .main-footer, .cover-print { display: none !important; }
+  .section { padding: 0; }
+  .container { max-width: 100%; padding: 0 20px; }
+  .cover-wrap { grid-template-columns: 1fr; gap: 0; }
+  .cover-toc { display: none; }
+  .cover-article { border: none; box-shadow: none; padding: 0; }
+  .cover-section { page-break-inside: avoid; }
+}
+
+/* 반응형 */
+@media (max-width: 980px) {
+  .cover-wrap {
+    grid-template-columns: 1fr;
+  }
+  .cover-toc { position: static; }
+}
+
+/* 고정헤더 높이만큼 앵커 오프셋 주기 */
+:root { --header-offset: 80px; } /* 헤더 높이에 맞춰 조절 */
+
+.cover-section,
+.cover-h3 {
+  scroll-margin-top: calc(var(--header-offset) + 16px);
+}
+
+/* 부드러운 스크롤 (선택) */
+html { scroll-behavior: smooth; }

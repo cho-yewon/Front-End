@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import projectsRouter from "./routes/projects.js";
+import keepaliveRouter from "./routes/keepalive.js";
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.get("/api/health", (_req, res) => res.json({ ok: true }));
 // ✅ 라우터 마운트
 app.use("/api/projects", projectsRouter);
 
+app.use("/keepalive", keepaliveRouter);
+
 // 에러 핸들러
 app.use((err, _req, res, _next) => {
   console.error("UNCAUGHT:", err);
@@ -37,4 +40,3 @@ app.use((err, _req, res, _next) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ API Server running on port ${PORT}`));
-
