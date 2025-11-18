@@ -8,7 +8,8 @@ const router = Router();
 router.get("/", async (_req, res, next) => {
   try {
     const { rows } = await query(
-      "SELECT id, slug, title, cover_url, created_at FROM projects ORDER BY created_at DESC;"
+      // 🔥 tech_stack 추가
+      "SELECT id, slug, title, summary, tech_stack, cover_url, created_at FROM projects ORDER BY created_at DESC;"
     );
     res.json(rows);
   } catch (err) {
