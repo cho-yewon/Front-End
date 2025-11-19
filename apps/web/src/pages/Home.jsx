@@ -4,7 +4,25 @@ import { getJSON } from '../lib/api';
 export default function Home() {
   const [items, setItems] = useState([]);
 
-  useEffect(() => { getJSON('/api/projects').then(setItems); }, []);
+  // 게임 프로젝트 3개 slug 고정
+  const gameSlugs = ["unity3d-rpg-inventory-202108", "unity2d-boss-forest-202106", "unreal-blueprint-fps-boss-202102"];
+
+  useEffect(() => {
+    getJSON('/api/projects').then((allItems) => {
+
+      // slug 기준으로 3개 필터링
+      const gameItems = allItems.filter((p) =>
+        gameSlugs.includes(p.slug)
+      );
+
+      // 혹시 순서 정하고 싶으면 여기에서 정렬
+      const orderedGames = gameSlugs
+        .map(slug => gameItems.find(p => p.slug === slug))
+        .filter(Boolean); // null 제거
+
+      setItems(orderedGames);
+    });
+  }, []);
 
   return (
     <>
@@ -22,8 +40,9 @@ export default function Home() {
       <section className="section" style={{ backgroundColor: 'var(--background-light)' }}>
         <div className="container">
           <h2 className="section-title">주요 프로젝트</h2>
+
           <div className="home-grid">
-            {items.slice(0, 3).map(p => (
+            {items.map((p) => (
               <a key={p.id} href={`/projects/${p.slug}`} className="card">
                 <img
                   src={p.cover_url || 'https://via.placeholder.com/400x250/4285F4/FFFFFF?text=Project'}
@@ -37,7 +56,9 @@ export default function Home() {
             ))}
           </div>
 
-          <a href="/projects" style={{ display: 'block', width: 'fit-content', marginLeft: 'auto', marginTop: '3em' }}>더 보기 →</a>
+          <a href="/projects" style={{ display: 'block', width: 'fit-content', marginLeft: 'auto', marginTop: '3em' }}>
+            더 보기 →
+          </a>
         </div>
       </section>
     </>

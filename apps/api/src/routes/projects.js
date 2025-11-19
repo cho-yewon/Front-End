@@ -1,16 +1,30 @@
 // apps/api/src/routes/projects.js
 import { Router } from "express";
-import { query } from "../db.js";  // DB 연결 모듈 가져오기
+import { query } from "../db.js"; // DB 연결 모듈 가져오기
 
 const router = Router();
 
-// ✅ 1. 프로젝트 목록 불러오기
-router.get("/", async (_req, res, next) => {
+// ✅ 1. 프로젝트 목록 불러오기 (정렬 옵션 지원)
+//   GET /api/projects?sort=newest  (기본값)
+//   GET /api/projects?sort=oldest
+router.get("/", async (req, res, next) => {
   try {
+    const { sort } = req.query;
+
+    // 정렬 방향 화이트리스트
+    let orderDirection = "DESC"; // 기본: 최신순
+    if (sort === "oldest") {
+      orderDirection = "ASC";
+    }
+
     const { rows } = await query(
-      // 🔥 tech_stack 추가
-      "SELECT id, slug, title, summary, tech_stack, cover_url, created_at FROM projects ORDER BY created_at DESC;"
+      `
+      SELECT id, slug, title, summary, tech_stack, cover_url, created_at
+      FROM projects
+      ORDER BY created_at ${orderDirection};
+      `
     );
+
     res.json(rows);
   } catch (err) {
     console.error("❌ DB error:", err);

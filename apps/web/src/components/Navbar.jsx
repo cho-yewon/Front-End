@@ -28,12 +28,31 @@ export default function Navbar() {
     };
   }, [open]);
 
-  // 메뉴 닫기 함수 (NavLink 클릭 시 사용)
-  const closeMenu = () => setOpen(false);
+  // ✅ NavLink 클릭 시: 같은 경로면 새로고침, 아니면 메뉴만 닫기
+  const handleNavClick = (path) => {
+    if (location.pathname === path) {
+      // 같은 메뉴 다시 누른 경우: 새로 열기 + 맨 위로
+      window.location.href = path;
+    } else {
+      // 다른 메뉴로 이동할 때도 맨 위로
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant",   // "smooth"로 바꾸면 부드럽게 올라감
+      });
+      setOpen(false); // 모바일 메뉴 닫기 유지
+    }
+  };
+
+
 
   return (
     <nav ref={navRef} className={`main-nav ${open ? 'active' : ''}`}>
-      <NavLink to="/" className="logo" onClick={closeMenu}>
+      <NavLink
+        to="/"
+        className="logo"
+        onClick={() => handleNavClick('/')}
+      >
         [Cho Yewon]
       </NavLink>
 
@@ -48,27 +67,48 @@ export default function Navbar() {
 
       <ul>
         <li>
-          <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={() => handleNavClick('/')}
+          >
             Home
           </NavLink>
         </li>
         <li>
-          <NavLink to="/resume" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
+          <NavLink
+            to="/resume"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={() => handleNavClick('/resume')}
+          >
             Resume
           </NavLink>
         </li>
         <li>
-          <NavLink to="/projects" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
+          <NavLink
+            to="/projects"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={() => handleNavClick('/projects')}
+          >
             Portfolio
           </NavLink>
         </li>
         <li>
-          <NavLink to="/coverletter" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
+          <NavLink
+            to="/coverletter"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={() => handleNavClick('/coverletter')}
+          >
             Cover Letter
           </NavLink>
         </li>
         <li>
-          <NavLink to="/contact" className={({ isActive }) => isActive ? 'active' : ''} onClick={closeMenu}>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={() => handleNavClick('/contact')}
+          >
             Contact
           </NavLink>
         </li>
