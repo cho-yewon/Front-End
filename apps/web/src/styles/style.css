@@ -607,3 +607,9 @@ html { scroll-behavior: smooth; }
 .markdown-body a:hover {
   text-decoration: underline;
 }
+
+@media print {
+  .resume-print-area {
+    zoom: 0.8;
+  }
+}

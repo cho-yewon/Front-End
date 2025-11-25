@@ -1,10 +1,23 @@
 import profile from '../assets/profile.jpg';
 
 export default function About() {
+  const handlePrint = () => window.print();
+
   return (
     <><section className="section">
-      <div className="container">
-        <h2 className="section-title">About Me</h2>
+      <div className="container resume-print-area">
+
+        <header className="cover-header"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "right",
+            marginBottom: "2em"  // 아래 간격 추가
+          }}>
+          <button className="btn btn-secondary cover-print" onClick={handlePrint}>
+            Print / Save as PDF
+          </button>
+        </header>
         <div className="about-layout">
           <img src={profile} alt="프로필" />
           <div>
