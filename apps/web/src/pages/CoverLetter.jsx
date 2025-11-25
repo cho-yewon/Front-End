@@ -1,7 +1,5 @@
 // src/pages/CoverLetter.jsx
 export default function CoverLetter() {
-  // 인쇄 버튼
-  const handlePrint = () => window.print();
   const handleTocClick = (e, id) => {
     e.preventDefault();
     const el = document.getElementById(id);
@@ -84,11 +82,8 @@ export default function CoverLetter() {
   return (
     <section className="section">
       <div className="container">
-        <header className="cover-header">
+        <header>
           <h2 className="section-title">Cover Letter</h2>
-          <button className="btn btn-secondary cover-print" onClick={handlePrint}>
-            Print / Save as PDF
-          </button>
         </header>
 
         <div className="cover-wrap">

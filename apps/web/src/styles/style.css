@@ -497,6 +497,26 @@ a {
   .cover-toc { display: none; }
   .cover-article { border: none; box-shadow: none; padding: 0; }
   .cover-section { page-break-inside: avoid; }
+  .cover-header {
+    page-break-before: always;
+    break-before: page;
+    margin-top: 2rem; /* 너무 위에 딱 붙지 않게 여유를 조금 줌 */
+    }
+    .no-print,
+  .hero {
+    display: none !important;
+  }
+
+  /* My Resume 제목은 인쇄할 때만 보임 */
+  .print-only {
+    display: block !important;
+  }
+
+  /* zoom 적용 (이미 하고 있으면 그대로 유지) */
+  .print-area, 
+  .resume-print-area {
+    zoom: 0.8;
+  }
 }
 
 /* 반응형 */
@@ -609,7 +629,31 @@ html { scroll-behavior: smooth; }
 }
 
 @media print {
-  .resume-print-area {
-    zoom: 0.8;
+  .hero {
+    display: none !important;
   }
+
+  /* ✅ print-area 안에서, 두 번째 섹션부터는 항상 새 페이지에서 시작 */
+  .print-area > .section + .section {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* ✅ Resume.jsx 안에 있는 원래 My Resume 제목은 프린트에서만 숨기기 */
+  .resume-print-area .section-title:not(.print-only) {
+    display: none !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
+/* 이력서 상단 소개 영역과 다음 섹션 사이 여백 */
+.about-layout {
+  margin-bottom: 3rem !important;
 }
